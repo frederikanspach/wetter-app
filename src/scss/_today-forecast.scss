@@ -27,13 +27,6 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     padding-bottom: 1rem;
-
-    &.no-scrollbar {
-      scrollbar-width: none;
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
   }
 }
 
@@ -67,6 +60,7 @@
 }
 
 .no-scrollbar {
+  -webkit-overflow-scrolling: touch; // Für flüssiges Swipen auf iOS
   scrollbar-width: none; // Firefox
   &::-webkit-scrollbar {
     display: none;
