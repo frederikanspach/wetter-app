@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wetter App</title>
+  </head>
+  <body class="theme-dark">
+    <div id="app">
+      <section class="action-bar">
+        <div class="action-bar_link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#1f1f1f"
+            class="action-bar__icon action-bar__icon--back"
+          >
+            <path
+              d="M400-240 160-480l240-240 56 58-142 142h486v80H314l142 142-56 58Z"
+            />
+          </svg>
+        </div>
+
+        <div class="action-bar_link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            class="action-bar__icon action-bar__icon--favorite"
+          >
+            <path
+              d="m233-120 65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z"
+            />
+          </svg>
+        </div>
+      </section>
+
+      <section class="current-weather">
+        <h1 class="current-weather__city">Dortmund</h1>
+
+        <span class="current-weather__temp">22°</span>
+        <p class="current-weather__condition">Überwiegend Heiter</p>
+
+        <div class="current-weather__range">
+          <div class="current-weather__range-item">
+            <svg
+              class="current-weather__icon current-weather__icon--high"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 -960 960 960"
+            >
+              <path
+                d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"
+              />
+            </svg>
+            <span>5°</span>
+          </div>
+
+          <div class="current-weather__range-item">
+            <svg
+              class="current-weather__icon current-weather__icon--low"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 -960 960 960"
+            >
+              <path
+                d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"
+              />
+            </svg>
+            <span>1°</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="today-forecast">
+        <div class="today-forecast__header">
+          <h2 class="today-forecast__title">
+            Heute mäßiger Regenfall. Wind bis zu 25.2 km/h.
+          </h2>
+        </div>
+
+        <div class="today-forecast__list no-scrollbar">
+          <div class="forecast-card forecast-card--active">
+            <span class="forecast-card__time">Jetzt</span>
+            <svg class="forecast-card__icon" viewBox="0 0 24 24">
+              <path
+                d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0-5a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm0 16a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1zM5.64 4.22a1 1 0 1 1 1.41 1.41L5.64 7.05a1 1 0 0 1-1.41-1.41l1.41-1.42zm12.72 12.72a1 1 0 1 1 1.41 1.41l-1.41 1.42a1 1 0 0 1-1.41-1.41l1.41-1.42zM2 12a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1zm16 0a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2h-2a1 1 0 0 1-1-1zM5.64 19.78a1 1 0 0 1-1.41-1.41l1.41-1.42a1 1 0 1 1 1.41 1.41l-1.42 1.42zm12.72-12.72a1 1 0 0 1-1.41-1.41l1.41-1.42a1 1 0 1 1 1.41 1.41L18.36 7.06z"
+              />
+            </svg>
+            <span class="forecast-card__temp">22°</span>
+          </div>
+
+          <div class="forecast-card">
+            <span class="forecast-card__time">14:00</span>
+            <svg class="forecast-card__icon" viewBox="0 0 24 24">
+              <path
+                d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0-5a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm0 16a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1zM5.64 4.22a1 1 0 1 1 1.41 1.41L5.64 7.05a1 1 0 0 1-1.41-1.41l1.41-1.42zm12.72 12.72a1 1 0 1 1 1.41 1.41l-1.41 1.42a1 1 0 0 1-1.41-1.41l1.41-1.42zM2 12a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1zm16 0a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2h-2a1 1 0 0 1-1-1zM5.64 19.78a1 1 0 0 1-1.41-1.41l1.41-1.42a1 1 0 1 1 1.41 1.41l-1.42 1.42zm12.72-12.72a1 1 0 0 1-1.41-1.41l1.41-1.42a1 1 0 1 1 1.41 1.41L18.36 7.06z"
+              />
+            </svg>
+            <span class="forecast-card__temp">24°</span>
+          </div>
+          <div class="forecast-card">
+            <span class="forecast-card__time">15:00</span>
+            <svg class="forecast-card__icon" viewBox="0 0 24 24">
+              <path
+                d="M17.5 19a5.5 5.5 0 0 0 2.2-10.5 8.5 8.5 0 1 0-15.5 3.5A6 6 0 0 0 6 22h11.5a5.5 5.5 0 0 0 0-11z"
+              />
+            </svg>
+            <span class="forecast-card__temp">23°</span>
+          </div>
+          <div class="forecast-card">
+            <span class="forecast-card__time">16:00</span>
+            <svg class="forecast-card__icon" viewBox="0 0 24 24">
+              <path
+                d="M17.5 19a5.5 5.5 0 0 0 2.2-10.5 8.5 8.5 0 1 0-15.5 3.5A6 6 0 0 0 6 22h11.5a5.5 5.5 0 0 0 0-11z"
+              />
+            </svg>
+            <span class="forecast-card__temp">23°</span>
+          </div>
+          <div class="forecast-card">
+            <span class="forecast-card__time">17:00</span>
+            <svg class="forecast-card__icon" viewBox="0 0 24 24">
+              <path
+                d="M17.5 19a5.5 5.5 0 0 0 2.2-10.5 8.5 8.5 0 1 0-15.5 3.5A6 6 0 0 0 6 22h11.5a5.5 5.5 0 0 0 0-11z"
+              />
+              <path d="M14 20l-1 2m-3-2l-1 2m7-2l-1 2" />
+            </svg>
+            <span class="forecast-card__temp">24°</span>
+          </div>
+          <div class="forecast-card">
+            <span class="forecast-card__time">18:00</span>
+            <svg class="forecast-card__icon" viewBox="0 0 24 24">
+              <path
+                d="M17.5 19a5.5 5.5 0 0 0 2.2-10.5 8.5 8.5 0 1 0-15.5 3.5A6 6 0 0 0 6 22h11.5a5.5 5.5 0 0 0 0-11z"
+              />
+              <path d="M14 20l-1 2m-3-2l-1 2m7-2l-1 2" />
+            </svg>
+            <span class="forecast-card__temp">23°</span>
+          </div>
+          <div class="forecast-card">
+            <span class="forecast-card__time">19:00</span>
+            <svg class="forecast-card__icon" viewBox="0 0 24 24">
+              <path
+                d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0-5a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm0 16a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1zM5.64 4.22a1 1 0 1 1 1.41 1.41L5.64 7.05a1 1 0 0 1-1.41-1.41l1.41-1.42zm12.72 12.72a1 1 0 1 1 1.41 1.41l-1.41 1.42a1 1 0 0 1-1.41-1.41l1.41-1.42zM2 12a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1zm16 0a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2h-2a1 1 0 0 1-1-1zM5.64 19.78a1 1 0 0 1-1.41-1.41l1.41-1.42a1 1 0 1 1 1.41 1.41l-1.42 1.42zm12.72-12.72a1 1 0 0 1-1.41-1.41l1.41-1.42a1 1 0 1 1 1.41 1.41L18.36 7.06z"
+              />
+            </svg>
+            <span class="forecast-card__temp">23°</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="forecast">
+        <h3 class="forecast__title">Nächste 3 Tage</h3>
+
+        <div class="forecast__container">
+          <div class="forecast__row">
+            <span class="forecast__day">Heute</span>
+            <div class="forecast__details">
+              <div class="forecast__temp-group">
+                <span class="high">5°</span>
+                <span class="low">1°</span>
+              </div>
+              <div class="forecast__wind">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="white"
+                  opacity="0.6"
+                >
+                  <path
+                    d="M13,16H3V14H13V16M18,10H3V8H18V10M21,14H16V12H21V14Z"
+                  />
+                </svg>
+                <span>25 km/h</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="forecast__row">
+            <span class="forecast__day">Di</span>
+            <div class="forecast__details">
+              <div class="forecast__temp-group">
+                <span class="high">4°</span>
+                <span class="low">2°</span>
+              </div>
+              <div class="forecast__wind">
+                <span>25 km/h</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="forecast__row">
+            <span class="forecast__day">Mi</span>
+            <div class="forecast__details">
+              <div class="forecast__temp-group">
+                <span class="high">4°</span>
+                <span class="low">2°</span>
+              </div>
+              <div class="forecast__wind">
+                <span>25 km/h</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mini-stats">
+        <div class="mini-stats__card">
+          <span class="mini-stats__label">Feuchtigkeit</span>
+          <span class="mini-stats__value">93%</span>
+        </div>
+
+        <div class="mini-stats__card">
+          <span class="mini-stats__label">Gefühlt</span>
+          <span class="mini-stats__value">0.7°</span>
+        </div>
+
+        <div class="mini-stats__card">
+          <span class="mini-stats__label">Sonnenaufgang</span>
+          <span class="mini-stats__value">07:43</span>
+        </div>
+
+        <div class="mini-stats__card">
+          <span class="mini-stats__label">Sonnenuntergang</span>
+          <span class="mini-stats__value">17:47</span>
+        </div>
+
+        <div class="mini-stats__card">
+          <span class="mini-stats__label">Niederschlag</span>
+          <span class="mini-stats__value">0.06mm</span>
+        </div>
+
+        <div class="mini-stats__card">
+          <span class="mini-stats__label">UV-Index</span>
+          <span class="mini-stats__value">0</span>
+        </div>
+      </section>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

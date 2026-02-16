@@ -1,0 +1,74 @@
+@use "variables" as *;
+
+.today-forecast {
+  margin-top: 2.5rem;
+  padding: 0 1.5rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  &__date {
+    opacity: 0.6;
+    font-size: 0.9rem;
+  }
+
+  &__list {
+    padding-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+
+    &.no-scrollbar {
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}
+
+.forecast-card {
+  @include glass-panel;
+  @include hover-lift;
+
+  background: $glass-bg;
+  min-width: 65px;
+  padding: 1rem 0.5rem;
+  border-radius: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  border: 1px solid rgba(white, 0.1);
+  color: white;
+
+  &--active {
+    background: $glass-bright;
+    border: 1px solid rgba(white, 0.3);
+  }
+
+  &__time {
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+  &__temp {
+    font-weight: 600;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none; // Firefox
+  &::-webkit-scrollbar {
+    display: none;
+  } // Chrome/Safari
+}

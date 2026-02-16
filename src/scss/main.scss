@@ -1,0 +1,29 @@
+@use "variables" as *;
+@use "action-bar";
+@use "current-weather";
+@use "today-forecast";
+@use "forecast";
+@use "mini-stats";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $background-color;
+  min-height: 100dvh;
+  font-family: $font-main;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#app {
+  width: 100%;
+  max-width: 400px;
+  min-height: 600px;
+  background-color: #3498db;
+}

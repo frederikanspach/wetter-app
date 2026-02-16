@@ -1,0 +1,70 @@
+@use "variables" as *;
+
+.current-weather {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 2rem;
+  color: $color-primary-text;
+
+  &__city {
+    font-size: 1.5rem;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+  }
+
+  &__temp {
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(to bottom, #fff 60%, rgba(white, 0.4));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: $transition;
+
+    &:hover {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+  }
+
+  &__range {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.75rem;
+  }
+
+  &__range-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 1.1rem;
+
+    &--high {
+      span {
+        text-shadow: 0 0 10px rgba($color-temp-high, 0.3);
+      }
+    }
+    &--low {
+      span {
+        text-shadow: 0 0 10px rgba($color-temp-low, 0.3);
+      }
+    }
+  }
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+
+    &--high {
+      fill: $color-temp-high;
+    }
+
+    &--low {
+      fill: $color-temp-low;
+    }
+  }
+}

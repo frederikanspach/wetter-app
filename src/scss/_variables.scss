@@ -1,0 +1,28 @@
+$font-main: "Space Grotesk", sans-serif;
+$background-color: #101921;
+$color-temp-high: #ff7e8e;
+$color-temp-low: #81c3ff;
+$color-primary-text: #fff;
+$transition: all 0.3s ease-in-out;
+$color-primary: #136fec;
+$glass-bg: rgba(15, 25, 34, 0.4);
+$glass-bright: rgba(18, 127, 236, 0.15);
+
+@mixin glass-panel($bg: $glass-bg, $blur: 10px) {
+  background: $bg;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur); // Für Safari Support (KI)
+  border: 1px solid rgba(white, 0.1);
+  border-radius: 1.25rem;
+}
+
+@mixin hover-lift {
+  transition: $transition;
+
+  &:hover {
+    transform: translateY(-4px) scale(1.02);
+    background: rgba(white, 0.15);
+    border-color: rgba(white, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+}

@@ -1,0 +1,73 @@
+@use "variables" as *;
+
+.forecast {
+  margin-top: 2rem;
+  padding: 0 1.5rem;
+  color: white;
+
+  &__title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.6;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__row {
+    @include hover-lift;
+    border-radius: 0.75rem; // Damit der Hover-Hintergrund abgerundete Ecken hat
+    padding: 0.75rem 1rem; // Etwas mehr Padding für den Klickbereich
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(white, 0.05);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__day {
+    flex: 1;
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+
+  &__details {
+    flex: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__temp-group {
+    display: flex;
+    gap: 1rem;
+    font-weight: 600;
+
+    .high {
+      color: $color-temp-high;
+    }
+    .low {
+      color: $color-temp-low;
+      opacity: 0.8;
+    }
+  }
+
+  &__wind {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    opacity: 0.6;
+    min-width: 80px;
+    justify-content: flex-end;
+  }
+}
