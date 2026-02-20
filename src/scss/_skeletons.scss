@@ -54,6 +54,12 @@
     }
 }
 
+.forecast-card.is-loading,
+.mini-stats__card.is-loading,
+.forecast__container.is-loading {
+    display: flex;
+}
+
 .current-weather__temp.is-loading {
     min-width: 100px;
 }
