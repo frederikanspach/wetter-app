@@ -17,3 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// @@WFA: Funktion für eine künstliche Verzögerung -- SPÄTER ENTFERNEN!
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+async function simulateLoading() {
+  console.log("Wetterdaten werden geladen...");
+
+  await sleep(3000);
+
+  const loaders = document.querySelectorAll('.is-loading');
+  loaders.forEach(el => el.classList.remove('is-loading'));
+}
+simulateLoading();

@@ -1,0 +1,63 @@
+@use "./variables" as *;
+
+@keyframes shimmer-move {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes skeleton-pulse {
+
+    0%,
+    100% {
+        background-color: $skeleton-bg;
+    }
+
+    50% {
+        background-color: lighten($skeleton-bg, 4%);
+    }
+}
+
+.is-loading {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    display: inline-block;
+    vertical-align: middle;
+
+    visibility: hidden !important;
+    user-select: none;
+    pointer-events: none;
+
+    animation: skeleton-pulse 2s infinite ease-in-out;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        visibility: visible;
+
+        background: linear-gradient(90deg,
+                transparent 0%,
+                $skeleton-shimmer 50%,
+                transparent 100%);
+
+        transform: translateX(-100%);
+        animation: shimmer-move 1.8s infinite ease-in-out;
+    }
+}
+
+.current-weather__temp.is-loading {
+    min-width: 100px;
+}
+
+.current-weather__city.is-loading {
+    min-width: 150px;
+}
