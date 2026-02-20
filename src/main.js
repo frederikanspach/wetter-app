@@ -1,4 +1,4 @@
-import "./scss/main.scss";
+import "./main.scss";
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Wetter App 2026 geladen");
