@@ -16,7 +16,9 @@
   }
 
   &__temp {
-    font-size: 5rem;
+    // font-size: 5rem;
+    // font-weight: 700;
+    font-size: clamp(4rem, 18vw, 7rem);
     font-weight: 700;
     line-height: 1;
     background: linear-gradient(to bottom, #fff 60%, rgba(white, 0.4));
@@ -48,6 +50,7 @@
         text-shadow: 0 0 10px rgba($color-temp-high, 0.3);
       }
     }
+
     &--low {
       span {
         text-shadow: 0 0 10px rgba($color-temp-low, 0.3);

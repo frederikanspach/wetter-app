@@ -2,10 +2,11 @@
 
 .mini-stats {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); // 2 Spalten, die sich den Platz teilen
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  padding: 1.5rem;
+  padding: 0.5rem;
   margin-top: 1rem;
+  margin-bottom: 0.5rem;
 
   &__card {
     @include glass-panel;
@@ -28,5 +29,10 @@
     font-size: 1.2rem;
     font-weight: 600;
     color: white;
+  }
+
+  @media (max-width: 350px) {
+    gap: 0.5rem;
+    padding: 1rem;
   }
 }
