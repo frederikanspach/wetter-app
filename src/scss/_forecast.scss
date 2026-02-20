@@ -22,8 +22,8 @@
 
   &__row {
     @include hover-lift;
-    border-radius: 0.75rem; // Damit der Hover-Hintergrund abgerundete Ecken hat
-    padding: 0.75rem 1rem; // Etwas mehr Padding für den Klickbereich
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,6 +55,7 @@
     .high {
       color: $color-temp-high;
     }
+
     .low {
       color: $color-temp-low;
       opacity: 0.8;
