@@ -35,6 +35,10 @@
 
     animation: skeleton-pulse 2s infinite ease-in-out;
 
+    img {
+        visibility: hidden !important;
+    }
+
     &::after {
         content: "";
         position: absolute;

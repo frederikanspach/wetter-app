@@ -6,6 +6,7 @@ let city = "Braunschweig";
 let weatherData;
 
 document.addEventListener("DOMContentLoaded", async () => {
+  document.getElementById("app").style.display = "flex";
   setupHorizontalScroll();
 
   try {
