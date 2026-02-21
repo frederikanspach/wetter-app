@@ -55,7 +55,7 @@
                 d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"
               />
             </svg>
-            <span>5°</span>
+            <span class="current-weather__high">5°</span>
           </div>
 
           <div class="current-weather__range-item is-loading">
@@ -68,7 +68,7 @@
                 d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"
               />
             </svg>
-            <span>1°</span>
+            <span class="current-weather__low">1°</span>
           </div>
         </div>
       </section>
@@ -162,17 +162,6 @@
                 <span class="low">1°</span>
               </div>
               <div class="forecast__wind">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="white"
-                  opacity="0.6"
-                >
-                  <path
-                    d="M13,16H3V14H13V16M18,10H3V8H18V10M21,14H16V12H21V14Z"
-                  />
-                </svg>
                 <span>25 km/h</span>
               </div>
             </div>
@@ -209,32 +198,32 @@
       <section class="mini-stats">
         <div class="mini-stats__card is-loading">
           <span class="mini-stats__label">Feuchtigkeit</span>
-          <span class="mini-stats__value">93%</span>
+          <span class="mini-stats__humidity mini-stats__value">93%</span>
         </div>
 
         <div class="mini-stats__card is-loading">
           <span class="mini-stats__label">Gefühlt</span>
-          <span class="mini-stats__value">0.7°</span>
+          <span class="mini-stats__feelslike_c mini-stats__value">0.7°</span>
         </div>
 
         <div class="mini-stats__card is-loading">
           <span class="mini-stats__label">Sonnenaufgang</span>
-          <span class="mini-stats__value">07:43</span>
+          <span class="mini-stats__sunrise mini-stats__value">07:43</span>
         </div>
 
         <div class="mini-stats__card is-loading">
           <span class="mini-stats__label">Sonnenuntergang</span>
-          <span class="mini-stats__value">17:47</span>
+          <span class="mini-stats__sunset mini-stats__value">17:47</span>
         </div>
 
         <div class="mini-stats__card is-loading">
           <span class="mini-stats__label">Niederschlag</span>
-          <span class="mini-stats__value">0.06mm</span>
+          <span class="mini-stats__precip_mm mini-stats__value">0.06mm</span>
         </div>
 
         <div class="mini-stats__card is-loading">
           <span class="mini-stats__label">UV-Index</span>
-          <span class="mini-stats__value">0</span>
+          <span class="mini-stats__uv mini-stats__value">0</span>
         </div>
       </section>
     </div>

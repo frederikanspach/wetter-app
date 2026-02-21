@@ -1,32 +1,21 @@
 import "./main.scss";
+import { fetchWeather } from "./modules/api";
+import { removeSkeletons, setupHorizontalScroll, updateWeatherUI } from "./modules/ui";
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Wetter App 2026 geladen");
-  // API-Calls
-});
+let city = "Braunschweig";
+let weatherData;
 
-document.addEventListener("DOMContentLoaded", () => {
-  const scrollList = document.querySelector(".today-forecast__list");
+document.addEventListener("DOMContentLoaded", async () => {
+  setupHorizontalScroll();
 
-  if (scrollList) {
-    scrollList.addEventListener("wheel", (event) => {
-      if (event.deltaY !== 0) {
-        event.preventDefault();
-        scrollList.scrollLeft += event.deltaY;
-      }
-    });
+  try {
+    weatherData = await fetchWeather(city);
+
+    updateWeatherUI(weatherData);
+
+    removeSkeletons();
+
+  } catch (error) {
+    console.error(`Da ging was schief: ${error}`);
   }
 });
-
-// @@WFA: Funktion für eine künstliche Verzögerung -- SPÄTER ENTFERNEN!
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-async function simulateLoading() {
-  console.log("Wetterdaten werden geladen...");
-
-  await sleep(3000);
-
-  const loaders = document.querySelectorAll('.is-loading');
-  loaders.forEach(el => el.classList.remove('is-loading'));
-}
-simulateLoading();
