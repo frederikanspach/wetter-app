@@ -141,6 +141,18 @@ export function renderWeatherScreen() {
               </div>
             </div>
           </div>
+          <div class="forecast__row">
+            <span class="forecast__day">&nbsp;</span>
+            <div class="forecast__details">
+              <div class="forecast__temp-group">
+                <span class="high">&nbsp;</span>
+                <span class="low">&nbsp;</span>
+              </div>
+              <div class="forecast__wind">
+                <span>&nbsp;</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

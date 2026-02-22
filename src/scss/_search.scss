@@ -9,6 +9,7 @@
     animation: fadeIn 0.5s ease-out;
 
     .search-header {
+        font-size: 1.5rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -22,8 +23,8 @@
             background-color: transparent;
             border: none;
             color: $color-primary-text;
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: 600;
             text-shadow: 1px 1px 5px #000;
             cursor: pointer;
             margin-top: .5rem;
