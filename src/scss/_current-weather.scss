@@ -16,9 +16,7 @@
   }
 
   &__temp {
-    // font-size: 5rem;
-    // font-weight: 700;
-    font-size: clamp(4rem, 18vw, 7rem);
+    font-size: 5rem;
     font-weight: 700;
     line-height: 1;
     background: linear-gradient(to bottom, #fff 60%, rgba(white, 0.4));
@@ -26,6 +24,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: $transition;
+    margin-bottom: 0.5rem;
 
     &:hover {
       transform: scale(1.05);
@@ -36,7 +35,7 @@
   &__range {
     display: flex;
     gap: 1.5rem;
-    margin-top: 0.75rem;
+    margin-top: 0.25rem;
   }
 
   &__range-item {
