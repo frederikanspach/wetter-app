@@ -3,7 +3,8 @@ const WEATHER_API_CURRENT_URL = "https://api.weatherapi.com/v1/current.json";
 const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
 function createForecastURL(city = "Berlin") {
-    return `${WEATHER_API_FORECAST_URL}?key=${WEATHER_API_KEY}&q=${city}&days=3&aqi=no&lang=de`;
+    const encodedCity = encodeURIComponent(city);
+    return `${WEATHER_API_FORECAST_URL}?key=${WEATHER_API_KEY}&q=${encodedCity}&days=3&aqi=no&lang=de`;
 }
 
 export async function fetchWeather(city) {

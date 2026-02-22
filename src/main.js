@@ -1,22 +1,48 @@
 import "./main.scss";
 import { fetchWeather } from "./modules/api";
-import { removeSkeletons, setupHorizontalScroll, updateWeatherUI } from "./modules/ui";
+import { removeSkeletons, renderSearchScreen, renderWeatherScreen, setupHorizontalScroll, updateWeatherUI } from "./modules/ui";
 
-let city = "Braunschweig";
-let weatherData;
+document.addEventListener("DOMContentLoaded", () => {
+  initSearch();
+});
 
-document.addEventListener("DOMContentLoaded", async () => {
-  document.getElementById("app").style.display = "flex";
-  setupHorizontalScroll();
+function initSearch() {
+  renderSearchScreen();
+
+  const cityInput = document.getElementById("city-input");
+
+  cityInput.addEventListener("keypress", async (e) => {
+    if (e.key === "Enter") {
+      const city = cityInput.value.trim();
+      if (city) {
+        startWeatherFlow(city);
+      }
+    }
+  });
+}
+
+async function startWeatherFlow(city) {
+  renderWeatherScreen();
 
   try {
-    weatherData = await fetchWeather(city);
+    const weatherData = await fetchWeather(city);
 
     updateWeatherUI(weatherData);
 
-    removeSkeletons();
+    setupHorizontalScroll();
+
+    const backButton = document.querySelector(".action-bar__icon--back");
+    if (backButton) {
+      backButton.addEventListener("click", () => {
+        initSearch();
+      });
+    }
 
   } catch (error) {
     console.error(`Da ging was schief: ${error}`);
+    alert("Stadt nicht gefunden!");
+    initSearch();
+  } finally {
+    removeSkeletons();
   }
-});
+}

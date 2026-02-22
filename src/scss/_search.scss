@@ -1,0 +1,75 @@
+@use "variables" as *;
+
+.search-screen {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1.5rem;
+    font-family: $font-main;
+    animation: fadeIn 0.5s ease-out;
+
+    .search-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &__headline {
+            color: $color-primary-text;
+            transition: $transition;
+        }
+
+        #favorites-edit {
+            background-color: transparent;
+            border: none;
+            color: $color-primary-text;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 5px #000;
+            cursor: pointer;
+            margin-top: .5rem;
+            transition: $transition;
+
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
+    }
+
+    .search-box {
+        display: flex;
+        gap: 0.75rem;
+        width: 100%;
+
+        input {
+            flex: 1;
+            @include glass-panel;
+            background: rgba($color-primary-text, 0.05);
+            border: 1px solid rgba($color-primary-text, 0.1);
+            padding: 1rem 1.25rem;
+            color: $color-primary-text;
+            font-family: $font-main;
+            font-size: 1.2rem;
+            outline: none;
+            transition: $transition;
+
+            &::placeholder {
+                color: rgba($color-primary-text, 0.4);
+            }
+
+            &:focus {
+                background: rgba($color-primary-text, 0.1);
+                border-color: $color-primary;
+                box-shadow: 0 0 15px rgba($color-primary, 0.2);
+            }
+        }
+    }
+
+    .favorites {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: $color-primary-text;
+        opacity: 0.6;
+        margin-bottom: 1.25rem;
+    }
+}
