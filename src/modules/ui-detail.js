@@ -1,50 +1,5 @@
-export function setupHorizontalScroll() {
-  const scrollList = document.querySelector(".today-forecast__list");
-
-  if (scrollList) {
-    scrollList.addEventListener("wheel", (event) => {
-      if (event.deltaY !== 0) {
-        event.preventDefault();
-        scrollList.scrollLeft += event.deltaY;
-      }
-    });
-  }
-};
-
-export function removeSkeletons() {
-  const loaders = document.querySelectorAll('.is-loading');
-  loaders.forEach(el => el.classList.remove('is-loading'));
-}
-
-function clearApp() {
-  const app = document.getElementById("app");
-  app.innerHTML = "";
-  return app;
-}
-
-export function renderSearchScreen() {
-  const app = clearApp();
-
-  const searchHTML = `
-        <section class="search-screen">
-            <div class="search-header">
-                <h1 class="search-header__headline">Wetter</h1>
-                <button id="favorites-edit">Bearbeiten</button>
-            </div>
-            
-            <div class="search-box">
-                <input type="text" id="city-input" placeholder="Nach Stadt suchen" autofocus>
-            </div>
-            
-            <div class="favorites">
-                <div class="favorites-list">
-                    <p class="favorites-empty">Noch keine Favoriten</p>
-                </div>
-            </div>
-        </section>
-    `;
-  app.insertAdjacentHTML("beforeend", searchHTML);
-}
+import { checkFavoriteCity } from "./local-storage";
+import { formatTemp, convertTo24h } from "./ui-utils";
 
 export function renderWeatherScreen() {
   const app = document.getElementById("app");
@@ -189,25 +144,6 @@ export function renderWeatherScreen() {
       </section>`;
 }
 
-const formatTemp = (temp) => `${Math.round(temp)}`;
-
-function convertTo24h(timeStr) {
-  if (!timeStr) return "--:--";
-
-  const [time, modifier] = timeStr.split(' ');
-  let [hours, minutes] = time.split(':');
-
-  if (hours === '12') {
-    hours = '00';
-  }
-
-  if (modifier === 'PM') {
-    hours = parseInt(hours, 10) + 12;
-  }
-
-  return `${hours}:${minutes}`;
-}
-
 export function updateHourForecast(weatherData) {
   const listContainer = document.querySelector(".today-forecast__list");
   if (!listContainer) return;
@@ -272,7 +208,6 @@ export function updateWeatherUI(weatherData) {
   forecast.forecastday.forEach((day, index) => {
     if (forecastRows[index]) {
       const row = forecastRows[index];
-      // Datum formatieren
       const date = new Date(day.date);
       const dayName = index === 0 ? "Heute" : date.toLocaleDateString('de-DE', { weekday: 'short' });
 
@@ -284,4 +219,12 @@ export function updateWeatherUI(weatherData) {
   });
 
   updateHourForecast(weatherData);
+
+  const favoriteButton = document.querySelector(".action-bar__icon--favorite");
+
+  if (checkFavoriteCity(location.name)) {
+    favoriteButton.classList.add("is-favorite");
+  } else {
+    favoriteButton.classList.remove("is-favorite");
+  }
 }

@@ -1,6 +1,9 @@
 import "./main.scss";
 import { fetchWeather } from "./modules/api";
-import { removeSkeletons, renderSearchScreen, renderWeatherScreen, setupHorizontalScroll, updateWeatherUI } from "./modules/ui";
+import { saveFavoriteCity, deleteFavoriteCity, checkFavoriteCity } from "./modules/local-storage";
+import { updateWeatherUI, renderWeatherScreen } from "./modules/ui-detail";
+import { renderSearchScreen } from "./modules/ui-search";
+import { removeSkeletons, setupHorizontalScroll } from "./modules/ui-utils";
 
 document.addEventListener("DOMContentLoaded", () => {
   initSearch();
@@ -21,7 +24,7 @@ function initSearch() {
   });
 }
 
-async function startWeatherFlow(city) {
+export async function startWeatherFlow(city) {
   renderWeatherScreen();
 
   try {
@@ -38,9 +41,24 @@ async function startWeatherFlow(city) {
       });
     }
 
+    const favoriteButton = document.querySelector(".action-bar__icon--favorite");
+    if (favoriteButton) {
+      favoriteButton.addEventListener("click", () => {
+        const cityName = document.querySelector(".current-weather__city").textContent;
+
+        if (checkFavoriteCity(cityName)) {
+          deleteFavoriteCity(cityName);
+          favoriteButton.classList.remove("is-favorite");
+        } else {
+          saveFavoriteCity(cityName);
+          favoriteButton.classList.add("is-favorite");
+        }
+      });
+    }
+
   } catch (error) {
     console.error(`Da ging was schief: ${error}`);
-    alert("Stadt nicht gefunden!");
+    alert(error);
     initSearch();
   } finally {
     removeSkeletons();

@@ -72,5 +72,61 @@
         color: $color-primary-text;
         opacity: 0.6;
         margin-bottom: 1.25rem;
+
+        .favorites-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .favorite-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 10rem;
+            cursor: pointer;
+            transition: $transition;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 7.5rem;
+            padding: 1.25rem;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            &__row {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+
+                &:last-child {
+                    align-items: flex-end;
+                }
+            }
+
+            &__city {
+                font-size: 1.4rem;
+                font-weight: 600;
+                text-transform: none;
+                letter-spacing: normal;
+            }
+
+            &__temp {
+                font-size: 1.8rem;
+                font-weight: 300;
+                line-height: 1;
+            }
+
+            &__condition,
+            &__range {
+                font-size: 0.9rem;
+                opacity: 0.8;
+                text-transform: none;
+                letter-spacing: normal;
+            }
+        }
     }
 }

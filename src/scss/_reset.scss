@@ -18,7 +18,11 @@ body {
 #app {
     width: 100%;
     min-height: 100dvh;
-    background-color: $background-app-color;
+    background: radial-gradient(circle at 50% 0%,
+            #23313f 0%, // Dein hellster Ton
+            #1a2632 60%, // Dein $background-app-color
+            #101921 100% // Dein $background-color
+        );
     display: flex;
     flex-direction: column;
     margin: 0 auto;
