@@ -4,10 +4,14 @@ export function saveFavoriteCity(city) {
     const favorites = getAllCities();
     if (!checkFavoriteCity(city)) {
         favorites.push(city);
-        writeToLocalStorage(favorites);
+        saveAllFavorites(favorites);
         return true;
     }
     return false;
+}
+
+export function saveAllFavorites(cities) {
+    localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(cities));
 }
 
 export function getAllCities() {
@@ -18,7 +22,7 @@ export function getAllCities() {
 export function deleteFavoriteCity(city) {
     const favorites = getAllCities();
     const updatedFavorites = favorites.filter((fav) => fav !== city);
-    writeToLocalStorage(updatedFavorites);
+    saveAllFavorites(updatedFavorites);
 }
 
 export function checkFavoriteCity(city) {
@@ -26,6 +30,6 @@ export function checkFavoriteCity(city) {
     return favorites.includes(city);
 }
 
-function writeToLocalStorage(cities) {
-    localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(cities));
+export function clearAllFavorites() {
+    localStorage.removeItem(STORAGE_KEY_FAVORITES);
 }

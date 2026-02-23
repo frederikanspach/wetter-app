@@ -1,17 +1,18 @@
-import { getAllCities } from "./local-storage";
+import { getAllCities, deleteFavoriteCity, saveAllFavorites, clearAllFavorites } from "./local-storage";
 import { fetchWeather } from "./api";
 import { clearApp, formatTemp } from "./ui-utils";
 import { startWeatherFlow } from "../main";
 
-
-export function renderSearchScreen() {
+export async function renderSearchScreen() {
     const app = clearApp();
+    const favoriteCities = getAllCities();
+    const hasFavorites = favoriteCities.length > 0;
 
     const searchHTML = `
         <section class="search-screen">
             <div class="search-header">
                 <h1 class="search-header__headline">Wetter</h1>
-                <button id="favorites-edit">Bearbeiten</button>
+                ${hasFavorites ? '<button id="favorites-edit">Bearbeiten</button>' : ''}
             </div>
             
             <div class="search-box">
@@ -20,25 +21,22 @@ export function renderSearchScreen() {
             
             <div class="favorites">
                 <div class="favorites-list">
-                    <p class="favorites-empty">Noch keine Favoriten</p>
-                    <!-- <div class="favorite-card" data-city="Braunschweig">
-                        <div class="favorite-card__row">
-                            <span class="favorite-card__city">Braunschweig</span>
-                            <span class="favorite-card__temp">8°</span>
-                        </div>
-
-                        <div class="favorite-card__row">
-                            <span class="favorite-card__condition">Leichter Regen</span>
-                            <span class="favorite-card__range">H: 10° L: 4°</span>
-                        </div>
-                    </div> -->
+                    ${!hasFavorites ? '<p class="favorites-empty">Noch keine Favoriten</p>' : ''}
                 </div>
             </div>
         </section>
     `;
     app.insertAdjacentHTML("beforeend", searchHTML);
 
-    isFavoriteCities();
+    setupSearchInput();
+
+    if (hasFavorites) {
+        setupEditButton();
+        const listContainer = app.querySelector(".favorites-list");
+        setupFavoriteListInteractions(listContainer);
+
+        await isFavoriteCities();
+    }
 }
 
 export async function isFavoriteCities() {
@@ -47,14 +45,11 @@ export async function isFavoriteCities() {
 
     if (!favoriteCities || !listContainer) return;
 
-    if (favoriteCities.length > 0) {
-        listContainer.innerHTML = "";
-    }
+    listContainer.innerHTML = "";
 
-    for (const city of favoriteCities) {
+    for (const [index, city] of favoriteCities.entries()) {
         try {
             const weatherData = await fetchWeather(city, "1");
-
             const { location, current, forecast } = weatherData;
 
             const cityName = location.name;
@@ -63,32 +58,129 @@ export async function isFavoriteCities() {
             const high = formatTemp(forecast.forecastday[0].day.maxtemp_c);
             const low = formatTemp(forecast.forecastday[0].day.mintemp_c);
 
-            const cardHTML = `
-                <div class="favorite-card" data-city="${cityName}">
-                    <div class="favorite-card__row">
-                        <span class="favorite-card__city">${cityName}</span>
-                        <span class="favorite-card__temp">${temp}°</span>
-                    </div>
+            const isFirst = index === 0;
+            const isLast = index === favoriteCities.length - 1;
 
-                    <div class="favorite-card__row">
-                        <span class="favorite-card__condition">${condition}</span>
-                        <span class="favorite-card__range">H: ${high}° L: ${low}°</span>
+            const cardHTML = `
+                <div class="favorite-item" data-city="${city}">
+                    <div class="favorite-item__controls">
+                        <button class="control-btn move-up" ${isFirst ? 'disabled' : ''}>▲</button>
+                        <button class="control-btn delete-item">🗑️</button>
+                        <button class="control-btn move-down" ${isLast ? 'disabled' : ''}>▼</button>
+                    </div>
+                    <div class="favorite-card">
+                        <div class="favorite-card__row">
+                            <span class="favorite-card__city">${cityName}</span>
+                            <span class="favorite-card__temp">${temp}°</span>
+                        </div>
+                        <div class="favorite-card__row">
+                            <span class="favorite-card__condition">${condition}</span>
+                            <span class="favorite-card__range">H: ${high}° L: ${low}°</span>
+                        </div>
                     </div>
                 </div>
             `;
-
             listContainer.insertAdjacentHTML("beforeend", cardHTML);
         } catch (error) {
             console.error(`Fehler bei ${city}: ${error}`);
         }
     }
+}
 
-    listContainer.addEventListener("click", (event) => {
-        const card = event.target.closest(".favorite-card");
-        if (card) {
-            const selectedCity = card.dataset.city;
-            console.log("Wechsle zu Stadt:", selectedCity);
-            startWeatherFlow(selectedCity);
+async function refreshAndKeepEditing() {
+    const favorites = getAllCities();
+    if (favorites.length === 0) {
+        renderSearchScreen();
+        return;
+    }
+
+    await isFavoriteCities();
+
+    const favoritesSection = document.querySelector(".favorites");
+    const editBtn = document.getElementById("favorites-edit");
+
+    favoritesSection.classList.add("favorites--editing");
+    if (editBtn) editBtn.textContent = "Fertig";
+    toggleClearAllButton(true, favoritesSection);
+}
+
+function setupEditButton() {
+    const editBtn = document.getElementById("favorites-edit");
+    const favoritesSection = document.querySelector(".favorites");
+
+    if (!editBtn || !favoritesSection) return;
+
+    editBtn.addEventListener("click", () => {
+        const isEditing = favoritesSection.classList.toggle("favorites--editing");
+        editBtn.textContent = isEditing ? "Fertig" : "Bearbeiten";
+        toggleClearAllButton(isEditing, favoritesSection);
+    });
+}
+
+function toggleClearAllButton(show, container) {
+    let clearBtn = document.getElementById("clear-all-favorites");
+    if (show && !clearBtn) {
+        clearBtn = document.createElement("button");
+        clearBtn.id = "clear-all-favorites";
+        clearBtn.className = "btn-clear-all";
+        clearBtn.textContent = "Alle Favoriten löschen";
+        clearBtn.onclick = async () => {
+            if (confirm("Alle Favoriten löschen?")) {
+                clearAllFavorites();
+                renderSearchScreen();
+            }
+        };
+        container.appendChild(clearBtn);
+    } else if (!show && clearBtn) {
+        clearBtn.remove();
+    }
+}
+
+function setupFavoriteListInteractions(listContainer) {
+    listContainer.addEventListener("click", async (event) => {
+        const item = event.target.closest(".favorite-item");
+        if (!item) return;
+
+        const cityName = item.dataset.city;
+        const favorites = getAllCities();
+        const currentIndex = favorites.indexOf(cityName);
+
+        if (event.target.closest(".delete-item")) {
+            deleteFavoriteCity(cityName);
+            await refreshAndKeepEditing();
+            return;
+        }
+
+        const upBtn = event.target.closest(".move-up");
+        const downBtn = event.target.closest(".move-down");
+
+        if (upBtn || downBtn) {
+            const targetIndex = upBtn ? currentIndex - 1 : currentIndex + 1;
+            if (targetIndex >= 0 && targetIndex < favorites.length) {
+                [favorites[currentIndex], favorites[targetIndex]] = [favorites[targetIndex], favorites[currentIndex]];
+                saveAllFavorites(favorites);
+                await refreshAndKeepEditing();
+            }
+            return;
+        }
+
+        if (event.target.closest(".favorite-card")) {
+            startWeatherFlow(cityName);
+        }
+    });
+}
+
+function setupSearchInput() {
+    const input = document.getElementById("city-input");
+    if (!input) return;
+
+    input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            const city = input.value.trim();
+            if (city) {
+                console.log("Suche nach:", city);
+                startWeatherFlow(city); // Deine Haupt-Logik zum Starten der App
+            }
         }
     });
 }

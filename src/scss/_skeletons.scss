@@ -1,4 +1,5 @@
 @use "./variables" as *;
+@use "sass:color";
 
 @keyframes shimmer-move {
     0% {
@@ -18,7 +19,7 @@
     }
 
     50% {
-        background-color: lighten($skeleton-bg, 4%);
+        background-color: color.adjust($skeleton-bg, $lightness: 4%);
     }
 }
 

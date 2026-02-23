@@ -128,5 +128,57 @@
                 letter-spacing: normal;
             }
         }
+
+        .favorite-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+
+            &__controls {
+                display: none;
+                flex-direction: column;
+                gap: 0.5rem;
+                flex-shrink: 0;
+
+                .control-btn {
+                    background: rgba($color-primary-text, 0.1);
+                    border: 1px solid rgba($color-primary-text, 0.2);
+                    border-radius: 6px;
+                    color: $color-primary-text;
+                    padding: 0.4rem;
+                    cursor: pointer;
+                    line-height: 1;
+
+                    &:disabled {
+                        opacity: 0.2;
+                        cursor: not-allowed;
+                    }
+                }
+            }
+
+            .favorite-card {
+                flex: 1;
+            }
+        }
+
+        &.favorites--editing {
+            .favorite-item__controls {
+                display: flex;
+            }
+        }
+
+        .btn-clear-all {
+            margin-top: 1.5rem;
+            padding: 0.8rem;
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            color: #ff4444;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-family: $font-main;
+            font-weight: 600;
+        }
     }
 }

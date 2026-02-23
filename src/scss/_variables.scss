@@ -1,3 +1,4 @@
+@use "sass:color";
 $font-main: "Space Grotesk", sans-serif;
 $background-color: #101921;
 $background-app-color: #1a2632;
@@ -8,7 +9,7 @@ $transition: all 0.3s ease-in-out;
 $color-primary: #136fec;
 $glass-bg: rgba(15, 25, 34, 0.4);
 $glass-bright: rgba(18, 127, 236, 0.15);
-$skeleton-bg: lighten($background-app-color, 5%);
+$skeleton-bg: color.adjust($background-app-color, $lightness: 5%);
 $skeleton-shimmer: rgba(255, 255, 255, 0.08);
 
 @mixin glass-panel($bg: $glass-bg, $blur: 10px) {
