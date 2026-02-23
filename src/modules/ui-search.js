@@ -178,8 +178,7 @@ function setupSearchInput() {
         if (event.key === "Enter") {
             const city = input.value.trim();
             if (city) {
-                console.log("Suche nach:", city);
-                startWeatherFlow(city); // Deine Haupt-Logik zum Starten der App
+                startWeatherFlow(city);
             }
         }
     });
