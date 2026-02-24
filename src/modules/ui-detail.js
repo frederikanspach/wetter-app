@@ -27,14 +27,14 @@ export function renderWeatherScreen() {
         <p class="current-weather__condition is-loading">&nbsp;</p>
 
         <div class="current-weather__range">
-          <div class="current-weather__range-item is-loading">
+          <div class="current-weather__range-item">
             <svg class="current-weather__icon current-weather__icon--high" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
               <path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"></path>
             </svg>
             <span class="current-weather__high">&nbsp;</span>
           </div>
 
-          <div class="current-weather__range-item is-loading">
+          <div class="current-weather__range-item">
             <svg class="current-weather__icon current-weather__icon--low" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
               <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"></path>
             </svg>
@@ -65,15 +65,20 @@ export function renderWeatherScreen() {
                 <span class="forecast-card__time">&nbsp;</span>
                 <span class="forecast-card__temp">&nbsp;</span>
             </div>
+            <div class="forecast-card is-loading">
+                <span class="forecast-card__time">&nbsp;</span>
+                <span class="forecast-card__temp">&nbsp;</span>
+            </div>
         </div>
       </section>
 
       <section class="forecast">
         <h3 class="forecast__title">Nächste 3 Tage</h3>
 
-        <div class="forecast__container is-loading">
-          <div class="forecast__row">
+        <div class="forecast__container">
+          <div class="forecast__row is-loading">
             <span class="forecast__day">&nbsp;</span>
+            <span class="forecast__icon"></span>
             <div class="forecast__details">
               <div class="forecast__temp-group">
                 <span class="high">&nbsp;</span>
@@ -84,8 +89,9 @@ export function renderWeatherScreen() {
               </div>
             </div>
           </div>
-          <div class="forecast__row">
+          <div class="forecast__row is-loading">
             <span class="forecast__day">&nbsp;</span>
+            <span class="forecast__icon"></span>
             <div class="forecast__details">
               <div class="forecast__temp-group">
                 <span class="high">&nbsp;</span>
@@ -96,8 +102,9 @@ export function renderWeatherScreen() {
               </div>
             </div>
           </div>
-          <div class="forecast__row">
+          <div class="forecast__row is-loading">
             <span class="forecast__day">&nbsp;</span>
+            <span class="forecast__icon"></span>
             <div class="forecast__details">
               <div class="forecast__temp-group">
                 <span class="high">&nbsp;</span>
@@ -158,9 +165,9 @@ export function updateHourForecast(weatherData) {
 
   const currentHour = new Date().getHours();
 
-  const next12Hours = combinedHours.slice(currentHour, currentHour + 12);
+  const next24Hours = combinedHours.slice(currentHour, currentHour + 24);
 
-  next12Hours.forEach((hourData, index) => {
+  next24Hours.forEach((hourData, index) => {
     const timeValue = hourData.time.split(" ")[1];
     const timeLabel = index === 0 ? "Jetzt" : timeValue;
 
@@ -212,9 +219,10 @@ export function updateWeatherUI(weatherData) {
       const dayName = index === 0 ? "Heute" : date.toLocaleDateString('de-DE', { weekday: 'short' });
 
       row.querySelector(".forecast__day").textContent = dayName;
+      row.querySelector(".forecast__icon").innerHTML = `<img src="https:${day.day.condition.icon}" alt="" class="forecast-card__icon"></img>`;
       row.querySelector(".high").textContent = `${formatTemp(day.day.maxtemp_c)}°`;
       row.querySelector(".low").textContent = `${formatTemp(day.day.mintemp_c)}°`;
-      row.querySelector(".forecast__wind span").textContent = `${Math.round(day.day.maxwind_kph)} km/h`;
+      row.querySelector(".forecast__wind span").textContent = `Wind: ${Math.round(day.day.maxwind_kph)} km/h`;
     }
   });
 
