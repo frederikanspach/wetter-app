@@ -1,5 +1,6 @@
 import { checkFavoriteCity } from "./local-storage";
 import { formatTemp, convertTo24h } from "./ui-utils";
+import { getConditionImagePath } from "./conditions";
 
 export function renderWeatherScreen() {
   const app = document.getElementById("app");
@@ -191,6 +192,16 @@ export function updateWeatherUI(weatherData) {
 
   const { location, current, forecast } = weatherData;
   const today = forecast.forecastday[0];
+
+  const backgroundImageUrl = getConditionImagePath(current.condition.code, current.is_day);
+  const appElement = document.getElementById("app");
+
+  if (backgroundImageUrl) {
+    appElement.style.backgroundImage = `url("${backgroundImageUrl}")`;
+    appElement.style.backgroundSize = "cover";
+    appElement.style.backgroundPosition = "center";
+    appElement.style.backgroundRepeat = "no-repeat";
+  }
 
   document.querySelector(".current-weather__city").textContent = location.name;
   document.querySelector(".current-weather__temp").textContent = `${formatTemp(current.temp_c)}°`;

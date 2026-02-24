@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initSearch() {
+  const app = document.getElementById("app");
+  if (app) {
+    app.style.backgroundImage = "";
+  }
+
   renderSearchScreen();
 
   const cityInput = document.getElementById("city-input");
