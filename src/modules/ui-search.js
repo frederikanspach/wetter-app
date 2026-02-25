@@ -66,9 +66,21 @@ export async function isFavoriteCities() {
             const cardHTML = `
                 <div class="favorite-item" data-city="${city}">
                     <div class="favorite-item__controls">
-                        <button class="control-btn move-up" ${isFirst ? 'disabled' : ''} title="Stadt nach oben verschieben">▲</button>
-                        <button class="control-btn delete-item" title="Stadt aus Favoriten löschen">🗑️</button>
-                        <button class="control-btn move-down" ${isLast ? 'disabled' : ''} title="Stadt nach unten verschieben">▼</button>
+                        <button class="control-btn move-up" ${isFirst ? 'disabled' : ''} title="Stadt nach oben verschieben">
+                            <svg class="icon-arrow icon-arrow--up" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/>
+                            </svg>
+                        </button>
+                        <button class="control-btn delete-item" title="Stadt aus Favoriten löschen">
+                            <svg class="icon-trash" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+                            </svg>
+                        </button>
+                        <button class="control-btn move-down" ${isLast ? 'disabled' : ''} title="Stadt nach unten verschieben">
+                            <svg class="icon-arrow icon-arrow--down" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/>
+                            </svg>
+                        </button>
                     </div>
                     <div class="favorite-card">
                         <div class="favorite-card__row">

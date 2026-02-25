@@ -199,7 +199,7 @@ export function updateWeatherUI(weatherData) {
   if (backgroundImageUrl) {
     appElement.style.backgroundImage = `url("${backgroundImageUrl}")`;
     appElement.style.backgroundSize = "cover";
-    appElement.style.backgroundPosition = "left";
+    appElement.style.backgroundPosition = "center center";
     appElement.style.backgroundRepeat = "no-repeat";
   }
 
