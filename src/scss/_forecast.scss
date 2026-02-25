@@ -21,8 +21,6 @@
   }
 
   &__row {
-    // @include hover-lift;
-    // border-radius: 0.75rem;
     padding: 0.5rem 1rem;
     display: flex;
     justify-content: space-between;
@@ -83,4 +81,11 @@
     min-width: 80px;
     justify-content: flex-end;
   }
+}
+
+.forecast {
+  @include glass-panel;
+  margin: 1rem;
+  padding: 1rem;
+  color: $color-primary-text;
 }

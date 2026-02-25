@@ -2,6 +2,8 @@ import { getAllCities, deleteFavoriteCity, saveAllFavorites, clearAllFavorites }
 import { fetchWeather } from "./api";
 import { clearApp, formatTemp } from "./ui-utils";
 import { startWeatherFlow } from "../main";
+import { getConditionImagePath } from "./conditions";
+
 
 export async function renderSearchScreen() {
     const app = clearApp();
@@ -12,7 +14,7 @@ export async function renderSearchScreen() {
         <section class="search-screen">
             <div class="search-header">
                 <h1 class="search-header__headline">Wetter</h1>
-                ${hasFavorites ? '<button id="favorites-edit">Bearbeiten</button>' : ''}
+                ${hasFavorites ? '<button id="favorites-edit" title="Favoriten Bearbeiten">Bearbeiten</button>' : ''}
             </div>
             
             <div class="search-box">
@@ -64,9 +66,9 @@ export async function isFavoriteCities() {
             const cardHTML = `
                 <div class="favorite-item" data-city="${city}">
                     <div class="favorite-item__controls">
-                        <button class="control-btn move-up" ${isFirst ? 'disabled' : ''}>▲</button>
-                        <button class="control-btn delete-item">🗑️</button>
-                        <button class="control-btn move-down" ${isLast ? 'disabled' : ''}>▼</button>
+                        <button class="control-btn move-up" ${isFirst ? 'disabled' : ''} title="Stadt nach oben verschieben">▲</button>
+                        <button class="control-btn delete-item" title="Stadt aus Favoriten löschen">🗑️</button>
+                        <button class="control-btn move-down" ${isLast ? 'disabled' : ''} title="Stadt nach unten verschieben">▼</button>
                     </div>
                     <div class="favorite-card">
                         <div class="favorite-card__row">
@@ -81,6 +83,17 @@ export async function isFavoriteCities() {
                 </div>
             `;
             listContainer.insertAdjacentHTML("beforeend", cardHTML);
+
+            const lastItem = listContainer.lastElementChild;
+            const cardElement = lastItem.querySelector(".favorite-card");
+            const backgroundImageUrl = getConditionImagePath(current.condition.code, current.is_day);
+
+            if (backgroundImageUrl && cardElement) {
+                cardElement.style.backgroundImage = `url("${backgroundImageUrl}")`;
+                cardElement.style.backgroundSize = "cover";
+                cardElement.style.backgroundPosition = "left";
+                cardElement.style.backgroundRepeat = "no-repeat";
+            }
         } catch (error) {
             console.error(`Fehler bei ${city}: ${error}`);
         }

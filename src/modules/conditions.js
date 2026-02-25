@@ -6,7 +6,7 @@ export function getConditionImagePath(code, isDay = 1) {
 
   const imagePath = isDay ? condition.day : condition.night;
 
-  // Wir bauen den Key exakt so, wie er im glob oben gefunden wird - KI
+  // Wir bauen den Key exakt so, wie er im glob oben gefunden wird (KI)
   const key = `../assets/img/condition/${imagePath}`;
 
   return allImages[key] || null;

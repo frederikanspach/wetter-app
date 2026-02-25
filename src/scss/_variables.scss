@@ -7,8 +7,8 @@ $color-temp-low: #81c3ff;
 $color-primary-text: #fff;
 $transition: all 0.3s ease-in-out;
 $color-primary: #136fec;
-$glass-bg: rgba(15, 25, 34, 0.4);
-$glass-bright: rgba(18, 127, 236, 0.15);
+$glass-bg: rgba(15, 25, 34, 0.2);
+$glass-bright: rgba(18, 127, 236, 0.1);
 $skeleton-bg: color.adjust($background-app-color, $lightness: 5%);
 $skeleton-shimmer: rgba(255, 255, 255, 0.08);
 
