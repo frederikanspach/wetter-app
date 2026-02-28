@@ -13,6 +13,7 @@ function initSearch() {
   const app = document.getElementById("app");
   if (app) {
     app.style.backgroundImage = "";
+    app.classList.remove("has-overlay");
   }
 
   renderSearchScreen();
@@ -30,6 +31,8 @@ function initSearch() {
 }
 
 export async function startWeatherFlow(city) {
+  const app = document.getElementById("app");
+  app.classList.add("has-overlay");
   renderWeatherScreen();
 
   try {

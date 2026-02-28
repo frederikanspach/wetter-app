@@ -81,10 +81,13 @@
         }
 
         .favorite-card {
+            @include glass-panel;
+            @include hover-lift; // Wir laden das Standard-Verhalten
+
             position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             cursor: pointer;
-            transition: $transition;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -93,22 +96,27 @@
             overflow: hidden;
             z-index: 1;
 
+            // Spezifisches Hover-Override nur für diese Karte:
+            &:hover {
+                // Das hier "heilt" das Blitzen, indem wir das Weiß des Mixins 
+                // durch Transparenz ersetzen, damit das Bild sichtbar bleibt.
+                background: rgba(255, 255, 255, 0.02);
+
+                &::after {
+                    opacity: 0.5; // Macht den dunklen Verlauf beim Hover weicher
+                }
+            }
+
             &::after {
                 content: "";
                 position: absolute;
                 inset: 0;
-                background: rgba(0, 0, 0, 0.4);
-                transition: $transition;
+                background: linear-gradient(to bottom,
+                        rgba(0, 0, 0, 0.1) 0%,
+                        rgba(0, 0, 0, 0.6) 100%);
                 z-index: 10;
                 pointer-events: none;
-            }
-
-            &:hover {
-                transform: scale(1.025);
-
-                &::after {
-                    background: rgba(0, 0, 0, 0.2);
-                }
+                transition: opacity 0.3s ease;
             }
 
             &__row {
