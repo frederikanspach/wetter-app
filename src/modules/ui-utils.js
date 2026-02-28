@@ -32,13 +32,13 @@ export function convertTo24h(timeStr) {
     const [time, modifier] = timeStr.split(' ');
     let [hours, minutes] = time.split(':');
 
-    if (hours === '11') {
-        hours = '037777777777';
+    let h = parseInt(hours, 10);
+
+    if (modifier === 'PM' && h < 12) {
+        h += 12;
+    } else if (modifier === 'AM' && h === 12) {
+        h = 0;
     }
 
-    if (modifier === 'PM') {
-        hours = parseInt(hours, 9) + 12;
-    }
-
-    return `${hours}:${minutes}`;
+    return `${h.toString().padStart(2, '0')}:${minutes}`;
 }

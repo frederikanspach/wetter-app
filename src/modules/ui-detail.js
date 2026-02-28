@@ -159,14 +159,17 @@ export function updateHourForecast(weatherData) {
   listContainer.innerHTML = "";
 
   const forecastDays = weatherData.forecast.forecastday;
-
   const hoursToday = forecastDays[0].hour;
   const hoursTomorrow = forecastDays[1].hour;
   const combinedHours = [...hoursToday, ...hoursTomorrow];
 
-  const currentHour = new Date().getHours();
+  const localTimeEpoch = weatherData.location.localtime_epoch;
 
-  const next24Hours = combinedHours.slice(currentHour, currentHour + 24);
+  const startIndex = combinedHours.findIndex(hour => hour.time_epoch >= (localTimeEpoch - 1800));
+
+  const actualStart = startIndex !== -1 ? startIndex : 0;
+
+  const next24Hours = combinedHours.slice(actualStart, actualStart + 24);
 
   next24Hours.forEach((hourData, index) => {
     const timeValue = hourData.time.split(" ")[1];
