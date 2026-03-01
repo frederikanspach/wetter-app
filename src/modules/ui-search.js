@@ -85,6 +85,15 @@ async function loadFavoriteDataSequentially(container, cities) {
 
             const cardHTML = `
                 <div class="favorite-item__controls">
+                    <button class="control-btn move-up" ${isFirst ? 'disabled' : ''} title="Nach oben">
+                        <svg class="icon-arrow icon-arrow--up" viewBox="0 -960 960 960"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg>
+                    </button>
+                    <button class="control-btn delete-item" title="Löschen">
+                        <svg class="icon-trash" viewBox="0 -960 960 960"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                    </button>
+                    <button class="control-btn move-down" ${isLast ? 'disabled' : ''} title="Nach unten">
+                        <svg class="icon-arrow icon-arrow--down" viewBox="0 -960 960 960"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg>
+                    </button>
                 </div>
                 <div class="favorite-card" style="background-image: url('${bgImage}'); background-size: cover; background-position: left;">
                     <div class="favorite-card__row">
