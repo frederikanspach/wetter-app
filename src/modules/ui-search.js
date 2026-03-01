@@ -4,6 +4,26 @@ import { clearApp, formatTemp } from "./ui-utils";
 import { startWeatherFlow } from "../main";
 import { getConditionImagePath } from "./conditions";
 
+function renderFavoriteSkeletons(container, cityCount) {
+    container.innerHTML = "";
+    for (let i = 0; i < cityCount; i++) {
+        const skeletonHTML = `
+            <div class="favorite-item">
+                <div class="favorite-card is-loading">
+                    <div class="favorite-card__row">
+                        <div class="favorite-card__city" style="width: 100px; height: 1.4rem;"></div>
+                        <div class="favorite-card__temp" style="width: 40px; height: 1.8rem;"></div>
+                    </div>
+                    <div class="favorite-card__row">
+                        <div class="favorite-card__condition" style="width: 80px; height: 0.9rem;"></div>
+                        <div class="favorite-card__range" style="width: 60px; height: 0.9rem;"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML("beforeend", skeletonHTML);
+    }
+}
 
 export async function renderSearchScreen() {
     const app = clearApp();
@@ -37,92 +57,87 @@ export async function renderSearchScreen() {
         const listContainer = app.querySelector(".favorites-list");
         setupFavoriteListInteractions(listContainer);
 
-        await isFavoriteCities();
+        renderFavoriteSkeletons(listContainer, favoriteCities.length);
+
+        await loadFavoriteDataSequentially(listContainer, favoriteCities);
     }
 }
 
-export async function isFavoriteCities() {
-    const favoriteCities = getAllCities();
-    const listContainer = document.querySelector(".favorites-list");
+async function loadFavoriteDataSequentially(container, cities) {
+    const skeletonItems = container.querySelectorAll(".favorite-item");
 
-    if (!favoriteCities || !listContainer) return;
-
-    listContainer.innerHTML = "";
-
-    for (const [index, city] of favoriteCities.entries()) {
+    // .forEach wartet nicht aus await!
+    for (const [index, city] of cities.entries()) {
         try {
-            const weatherData = await fetchWeather(city, "1");
-            const { location, current, forecast } = weatherData;
+            const weather = await fetchWeather(city);
+            const itemSlot = skeletonItems[index];
 
-            const cityName = location.name;
-            const temp = formatTemp(current.temp_c);
-            const condition = current.condition.text;
-            const high = formatTemp(forecast.forecastday[0].day.maxtemp_c);
-            const low = formatTemp(forecast.forecastday[0].day.mintemp_c);
+            if (!itemSlot) continue;
+
+            const isDay = weather.current.is_day;
+            const bgImage = getConditionImagePath(weather.current.condition.code, isDay);
 
             const isFirst = index === 0;
-            const isLast = index === favoriteCities.length - 1;
+            const isLast = index === cities.length - 1;
 
             const cardHTML = `
-                <div class="favorite-item" data-city="${city}">
-                    <div class="favorite-item__controls">
-                        <button class="control-btn move-up" ${isFirst ? 'disabled' : ''} title="Stadt nach oben verschieben">
-                            <svg class="icon-arrow icon-arrow--up" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/>
-                            </svg>
-                        </button>
-                        <button class="control-btn delete-item" title="Stadt aus Favoriten löschen">
-                            <svg class="icon-trash" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
-                            </svg>
-                        </button>
-                        <button class="control-btn move-down" ${isLast ? 'disabled' : ''} title="Stadt nach unten verschieben">
-                            <svg class="icon-arrow icon-arrow--down" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/>
-                            </svg>
-                        </button>
+                <div class="favorite-item__controls">
+                    <button class="control-btn move-up" ${isFirst ? 'disabled' : ''} title="Nach oben">
+                        <svg class="icon-arrow icon-arrow--up" viewBox="0 -960 960 960"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg>
+                    </button>
+                    <button class="control-btn delete-item" title="Löschen">
+                        <svg class="icon-trash" viewBox="0 -960 960 960"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                    </button>
+                    <button class="control-btn move-down" ${isLast ? 'disabled' : ''} title="Nach unten">
+                        <svg class="icon-arrow icon-arrow--down" viewBox="0 -960 960 960"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg>
+                    </button>
+                </div>
+                <div class="favorite-card" style="background-image: url('${bgImage}'); background-size: cover; background-position: left;">
+                    <div class="favorite-card__row">
+                        <span class="favorite-card__city">${weather.location.name}</span>
+                        <span class="favorite-card__temp">${formatTemp(weather.current.temp_c)}°</span>
                     </div>
-                    <div class="favorite-card">
-                        <div class="favorite-card__row">
-                            <span class="favorite-card__city">${cityName}</span>
-                            <span class="favorite-card__temp">${temp}°</span>
-                        </div>
-                        <div class="favorite-card__row">
-                            <span class="favorite-card__condition">${condition}</span>
-                            <span class="favorite-card__range">H: ${high}° L: ${low}°</span>
-                        </div>
+                    <div class="favorite-card__row">
+                        <span class="favorite-card__condition">${weather.current.condition.text}</span>
+                        <span class="favorite-card__range">H:${formatTemp(weather.forecast.forecastday[0].day.maxtemp_c)}° L:${formatTemp(weather.forecast.forecastday[0].day.mintemp_c)}°</span>
                     </div>
                 </div>
             `;
-            listContainer.insertAdjacentHTML("beforeend", cardHTML);
 
-            const lastItem = listContainer.lastElementChild;
-            const cardElement = lastItem.querySelector(".favorite-card");
-            const backgroundImageUrl = getConditionImagePath(current.condition.code, current.is_day);
+            itemSlot.innerHTML = cardHTML;
+            itemSlot.dataset.city = city;
 
-            if (backgroundImageUrl && cardElement) {
-                cardElement.style.backgroundImage = `url("${backgroundImageUrl}")`;
-                cardElement.style.backgroundSize = "cover";
-                cardElement.style.backgroundPosition = "left";
-                cardElement.style.backgroundRepeat = "no-repeat";
-            }
         } catch (error) {
-            console.error(`Fehler bei ${city}: ${error}`);
+            console.error(`Fehler beim Laden von ${city}:`, error);
+            const slot = skeletonItems[index];
+            if (slot) slot.remove();
         }
     }
 }
 
+async function renderFavoritesForEditing(container, cities) {
+    container.innerHTML = "";
+
+    for (let i = 0; i < cities.length; i++) {
+        const itemHTML = `<div class="favorite-item" data-city="${cities[i]}"></div>`;
+        container.insertAdjacentHTML("beforeend", itemHTML);
+    }
+
+    await loadFavoriteDataSequentially(container, cities);
+}
+
 async function refreshAndKeepEditing() {
     const favorites = getAllCities();
+    const favoritesSection = document.querySelector(".favorites");
+    const listContainer = document.querySelector(".favorites-list");
+    const editBtn = document.getElementById("favorites-edit");
+
     if (favorites.length === 0) {
         renderSearchScreen();
         return;
     }
 
-    await isFavoriteCities();
-
-    const favoritesSection = document.querySelector(".favorites");
-    const editBtn = document.getElementById("favorites-edit");
+    await renderFavoritesForEditing(listContainer, favorites);
 
     favoritesSection.classList.add("favorites--editing");
     if (editBtn) editBtn.textContent = "Fertig";
