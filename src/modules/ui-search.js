@@ -11,12 +11,15 @@ function renderFavoriteSkeletons(container, cityCount) {
             <div class="favorite-item">
                 <div class="favorite-card is-loading">
                     <div class="favorite-card__row">
-                        <div class="favorite-card__city" style="width: 100px; height: 1.4rem;"></div>
-                        <div class="favorite-card__temp" style="width: 40px; height: 1.8rem;"></div>
+                        <div class="favorite-card__location-group">
+                            <div class="favorite-card__city" style="width: 120px; height: 1.4rem; background: rgba(255,255,255,0.1); border-radius: 4px;"></div>
+                            <div class="favorite-card__country" style="width: 80px; height: 0.8rem; margin-top: 4px; background: rgba(255,255,255,0.05); border-radius: 4px;"></div>
+                        </div>
+                        <div class="favorite-card__temp" style="width: 45px; height: 2rem; background: rgba(255,255,255,0.1); border-radius: 4px;"></div>
                     </div>
                     <div class="favorite-card__row">
-                        <div class="favorite-card__condition" style="width: 80px; height: 0.9rem;"></div>
-                        <div class="favorite-card__range" style="width: 60px; height: 0.9rem;"></div>
+                        <div class="favorite-card__condition" style="width: 90px; height: 1rem; background: rgba(255,255,255,0.1); border-radius: 4px;"></div>
+                        <div class="favorite-card__range" style="width: 70px; height: 1rem; background: rgba(255,255,255,0.1); border-radius: 4px;"></div>
                     </div>
                 </div>
             </div>
@@ -82,19 +85,13 @@ async function loadFavoriteDataSequentially(container, cities) {
 
             const cardHTML = `
                 <div class="favorite-item__controls">
-                    <button class="control-btn move-up" ${isFirst ? 'disabled' : ''} title="Nach oben">
-                        <svg class="icon-arrow icon-arrow--up" viewBox="0 -960 960 960"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg>
-                    </button>
-                    <button class="control-btn delete-item" title="Löschen">
-                        <svg class="icon-trash" viewBox="0 -960 960 960"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                    </button>
-                    <button class="control-btn move-down" ${isLast ? 'disabled' : ''} title="Nach unten">
-                        <svg class="icon-arrow icon-arrow--down" viewBox="0 -960 960 960"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg>
-                    </button>
                 </div>
                 <div class="favorite-card" style="background-image: url('${bgImage}'); background-size: cover; background-position: left;">
                     <div class="favorite-card__row">
-                        <span class="favorite-card__city">${weather.location.name}</span>
+                        <div class="favorite-card__location-group">
+                            <span class="favorite-card__city">${weather.location.name}</span>
+                            <span class="favorite-card__country">${weather.location.country}</span>
+                        </div>
                         <span class="favorite-card__temp">${formatTemp(weather.current.temp_c)}°</span>
                     </div>
                     <div class="favorite-card__row">
