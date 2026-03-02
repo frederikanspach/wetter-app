@@ -1,9 +1,9 @@
 const STORAGE_KEY_FAVORITES = "wetter-app:favorite-cities";
 
-export function saveFavoriteCity(city) {
+export function saveFavoriteCity(cityObj) {
     const favorites = getAllCities();
-    if (!checkFavoriteCity(city)) {
-        favorites.push(city);
+    if (!checkFavoriteCity(cityObj.id)) {
+        favorites.push(cityObj);
         saveAllFavorites(favorites);
         return true;
     }
@@ -19,15 +19,16 @@ export function getAllCities() {
     return data ? JSON.parse(data) : [];
 }
 
-export function deleteFavoriteCity(city) {
+export function deleteFavoriteCity(cityId) {
     const favorites = getAllCities();
-    const updatedFavorites = favorites.filter((fav) => fav !== city);
+    const updatedFavorites = favorites.filter((fav) => fav.id !== cityId);
     saveAllFavorites(updatedFavorites);
 }
 
-export function checkFavoriteCity(city) {
+export function checkFavoriteCity(cityId) {
+    if (!cityId) return false;
     const favorites = getAllCities();
-    return favorites.includes(city);
+    return favorites.some((fav) => fav.id === cityId);
 }
 
 export function clearAllFavorites() {

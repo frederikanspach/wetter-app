@@ -2,7 +2,7 @@ import "./main.scss";
 import { fetchWeather } from "./modules/api";
 import { saveFavoriteCity, deleteFavoriteCity, checkFavoriteCity } from "./modules/local-storage";
 import { updateWeatherUI, renderWeatherScreen } from "./modules/ui-detail";
-import { renderSearchScreen } from "./modules/ui-search";
+import { renderSearchScreen, setupSearchInput } from "./modules/ui-search";
 import { removeSkeletons, setupHorizontalScroll } from "./modules/ui-utils";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -18,57 +18,54 @@ function initSearch() {
 
   renderSearchScreen();
 
-  const cityInput = document.getElementById("city-input");
-
-  cityInput.addEventListener("keypress", async (e) => {
-    if (e.key === "Enter") {
-      const city = cityInput.value.trim();
-      if (city) {
-        startWeatherFlow(city);
-      }
-    }
-  });
+  setupSearchInput();
 }
 
-export async function startWeatherFlow(city) {
+export async function startWeatherFlow(selection) {
   const app = document.getElementById("app");
   app.classList.add("has-overlay");
   renderWeatherScreen();
 
   try {
-    const weatherData = await fetchWeather(city);
+    const query = selection.id ? `id:${selection.id}` : selection;
+    const weatherData = await fetchWeather(query);
+
+    const cityContext = {
+      id: weatherData.location.id || selection.id || weatherData.location.name,
+      name: weatherData.location.name,
+      country: weatherData.location.country
+    };
 
     updateWeatherUI(weatherData);
-
     setupHorizontalScroll();
-
-    const backButton = document.querySelector(".action-bar__icon--back");
-    if (backButton) {
-      backButton.addEventListener("click", () => {
-        initSearch();
-      });
-    }
-
-    const favoriteButton = document.querySelector(".action-bar__icon--favorite");
-    if (favoriteButton) {
-      favoriteButton.addEventListener("click", () => {
-        const cityName = document.querySelector(".current-weather__city").textContent;
-
-        if (checkFavoriteCity(cityName)) {
-          deleteFavoriteCity(cityName);
-          favoriteButton.classList.remove("is-favorite");
-        } else {
-          saveFavoriteCity(cityName);
-          favoriteButton.classList.add("is-favorite");
-        }
-      });
-    }
+    setupActionButtons(cityContext);
 
   } catch (error) {
-    console.error(`Da ging was schief: ${error}`);
-    alert(error);
+    console.error(`Fehler: ${error}`);
+    alert("Ort konnte nicht gefunden werden.");
     initSearch();
   } finally {
     removeSkeletons();
+  }
+}
+
+function setupActionButtons(cityContext) {
+  const backBtn = document.querySelector(".action-bar__icon--back");
+  const favBtn = document.querySelector(".action-bar__icon--favorite");
+
+  if (backBtn) backBtn.onclick = () => initSearch();
+
+  if (favBtn) {
+    favBtn.classList.toggle("is-favorite", checkFavoriteCity(cityContext.id));
+
+    favBtn.onclick = () => {
+      if (checkFavoriteCity(cityContext.id)) {
+        deleteFavoriteCity(cityContext.id);
+        favBtn.classList.remove("is-favorite");
+      } else {
+        saveFavoriteCity(cityContext);
+        favBtn.classList.add("is-favorite");
+      }
+    };
   }
 }

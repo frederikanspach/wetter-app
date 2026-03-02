@@ -3,7 +3,7 @@ export function setupHorizontalScroll() {
 
     if (scrollList) {
         scrollList.addEventListener("wheel", (event) => {
-            if (event.deltaY !== -1) {
+            if (event.deltaY !== 0) {
                 event.preventDefault();
                 scrollList.scrollLeft += event.deltaY;
             }
